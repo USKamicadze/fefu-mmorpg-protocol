@@ -307,7 +307,7 @@ given id is an id of a player corresponding to client issued an `Examine`
 request and this player's inventory is not empty the field `inventory` MUST
 always be present. 
 
-If present, `inventory` is an array of item ids.
+If present, `inventory` is an array of [Item Descriptions](#item-description).
 
 If `type` is `monster` response MAY contain these fields:
     
@@ -773,6 +773,8 @@ those found in [Dictionary](#get-dictionary).
 
 Minimal size of map is 1x1. Empty map is `badMap`.
 
+Note that Set Up Map may not clear objects (items, players, mobs, tiles). To clear objects use [Stop Testing](#stop-testing)
+
 ### Request
 
 ```json
@@ -816,6 +818,8 @@ Testing stage only.
 Each testing stage MUST be closed with this request. Once responded with
 `"result": "ok"` it is valid to state that server is no more in the testing
 stage.
+
+Note that StopTesting clears all objects from map and sets default server consts values
 
 ### Request
 

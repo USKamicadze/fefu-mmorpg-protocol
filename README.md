@@ -404,21 +404,28 @@ See [Logout](#logout)
 A request for server to provide information for a map area around the client's
 player. Such information MUST be provided via keys `map` and `actors`.
 
-TBD: If size of such area must be standardized
 
 `map` key MUST have a value of an array of array of strings. Such strings are
 decoded via dictionary got using `getDictionary` request. `map` 2d array has
-row-major order. E.g. for a 4x6 (4 rows, 6 columns) map area:
+row-major order. E.g. for a 5x7 (5 rows, 7 columns) map area:
 
 ```json
 "map":
 [
-    ["#", "#", ".", "#", "#", "#"],
-    [".", ".", ".", ".", ".", "."],
-    [".", ".", ".", ".", ".", "."],
-    ["#", "#", "#", ".", "#", "#"]
+    ["#", "#", ".", "#", "#", "#", "#"],
+    [".", ".", ".", ".", ".", ".", "."],
+    [".", ".", ".", ".", ".", ".", "."],
+    ["#", "#", "#", ".", "#", "#", "#"],
+    ["#", "#", "#", ".", "#", "#", "#"],
 ]
 ```
+
+size of map should satisfy the following:
+
+size(map).X == 2 * Radius.X + 1
+size(map).Y == 2 * Radius.Y + 1
+
+it means that arrays in `map` key MUST be odd, minimus size of map i
 
 `actors` key MUST have a value of an array of objects type. Each element of the
 array MUST describe a single actor present at the provided area in the following
@@ -853,6 +860,11 @@ All of those MUST have square shape. Player's and monster's size MUST be 1.
 Item's and projectile's size MUST be 0.
 
 ## Player
+
+When registering a new player, his position is chosen automatically by the server, in order to avoid the appearance of the player in the wall. 
+If a player enters the game, and his place occupied by another object (monster or another player), it is ignored, ie player stands where it should be, herewith both able to move.
+
+When player dies (health of player below or equal 0), it should be raised somewhere on map like he was registered and login in just now. When player rised he gets all his items, exp, full health and mana.
 
 ### Classes
 
